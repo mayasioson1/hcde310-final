@@ -1,0 +1,80 @@
+---
+title: "HCDE 310 Final"
+author: "Maya Sioson"
+date: "December 11, 2019"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library("knitr")
+source("analysis.R")
+```
+
+## About the Data
+Data for these plots is taken from the **Federal Election Commission (FEC)**. Data from the FEC's API wasn't available for all presidential candidates, so some were left out (Bloomberg, Patrick, and Steyer).
+
+**1000 of the largest contributions** (greatest dollar amounts) to each candidate for the 2020 cycle were taken and used to generate these plots. This only represents a small fraction of the total number of contributions made to each candidate. The data was generated on December 11, 2019.
+
+```{r create_overall_graph, echo = FALSE, fig.width = 14, fig.height = 8}
+ggplot(data = contribs_filtered) +
+  geom_col(mapping = aes(x = reorder(candidate_name, -amount), y = amount, fill = entity_type)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    title = "Itemized Contributions to 2020 Presidential Candidates",
+    x = "Candidate Last Name",
+    y = "Amount (USD)",
+    fill = "Contributor Type"
+  ) +
+  theme(
+    plot.title = element_text(size = 18, face = "bold", margin = margin(t=15, b=15)),
+    axis.title.y = element_text(size = 14, margin = margin(r=10, l=10)),
+    axis.title.x = element_text(size = 14, margin = margin(t=10, b=10)),
+    axis.text.x = element_text(size = 10, margin = margin(r=5, l=5)),
+    legend.text = element_text(size = 12),
+    legend.title = element_text(size = 14)
+  ) +
+  scale_fill_manual(values = c("#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#e31a1c", "#ff7f00", "#6a3d9a"))
+```
+
+```{r create_dem_graph, echo = FALSE, fig.width = 14, fig.height = 8}
+ggplot(data = democrats) +
+  geom_col(mapping = aes(x = reorder(candidate_name, -amount), y = amount, fill = entity_type)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    title = "Itemized Contributions to 2020 Democratic Candidates",
+    x = "Candidate Last Name",
+    y = "Amount (USD)",
+    fill = "Contributor Type"
+  ) +
+  theme(
+    plot.title = element_text(size = 28, face = "bold", margin = margin(t=20, b=20)),
+    axis.title.y = element_text(size = 18, margin = margin(r=15, l=15)),
+    axis.title.x = element_text(size = 18, margin = margin(t=15, b=15)),
+    axis.text.x = element_text(size = 12, margin = margin(r=5, l=5)),
+    legend.text = element_text(size = 12),
+    legend.title = element_text(size = 16)
+  ) +
+  scale_fill_manual(values = c("#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#e31a1c", "#ff7f00", "#6a3d9a"))
+```
+
+```{r create_rep_graph, echo = FALSE, fig.width = 14, fig.height = 8}
+ggplot(data = republicans) +
+  geom_col(mapping = aes(x = reorder(candidate_name, -amount), y = amount, fill = entity_type)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    title = "Itemized Contributions to 2020 Republican Candidates",
+    x = "Candidate Last Name",
+    y = "Amount (USD)",
+    fill = "Contributor Type"
+  ) +
+  theme(
+    plot.title = element_text(size = 28, face = "bold", margin = margin(t=20, b=20)),
+    axis.title.y = element_text(size = 18, margin = margin(r=15, l=15)),
+    axis.title.x = element_text(size = 18, margin = margin(t=15, b=15)),
+    axis.text.x = element_text(size = 12, margin = margin(r=5, l=5)),
+    legend.text = element_text(size = 12),
+    legend.title = element_text(size = 16)
+  ) +
+  scale_fill_manual(values = c("#1f78b4", "#b2df8a", "#33a02c", "#e31a1c", "#ff7f00", "#6a3d9a"))
+```

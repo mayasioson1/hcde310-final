@@ -5,12 +5,13 @@ library(ggplot2)
 filenames <- list.files(path = "data/", pattern = "*.csv")
 fullpath <- file.path("data", filenames)
 contributions <- do.call("rbind", lapply(fullpath, FUN=function(files) {read.csv(files)}))
-
-write.csv(contributions, "data/combined_contribs.csv", row.names = FALSE)
-
-ggplot(data = contributions) +
-  geom_point(mapping = aes(x = candidate_name, y = amount), alpha = 0.05) +
-  scale_y_continuous(labels = scales::comma)
+# write.csv(contributions, "data/combined_contribs.csv", row.names = FALSE)
 
 contribs_filtered <- contributions %>%
   filter(contributor_name != "UNITEMIZED TOTAL")
+
+republicans <- contribs_filtered %>%
+  filter(candidate_name == "trump" | candidate_name == "weld" | candidate_name == "walsh")
+
+democrats <- contribs_filtered %>%
+  filter(candidate_name != "trump" & candidate_name != "weld" & candidate_name != "walsh")
